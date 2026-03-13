@@ -1,0 +1,226 @@
+
+<style>
+.tab-bar { display:flex; gap:4px; margin-bottom:20px; border-bottom:0.5px solid var(--color-border-tertiary); padding-bottom:0; }
+.tab { padding:8px 16px; font-size:13px; color:var(--color-text-secondary); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-0.5px; transition:all .15s; background:none; border-top:none; border-left:none; border-right:none; font-family:var(--font-sans); }
+.tab.active { color:var(--color-text-primary); border-bottom:2px solid var(--color-text-primary); font-weight:500; }
+.tab:hover:not(.active) { color:var(--color-text-primary); }
+.panel { display:none; }
+.panel.active { display:block; }
+
+.plan-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px; }
+.plan-card { background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:12px 10px; }
+.plan-card.featured { border:2px solid var(--color-border-info); }
+.plan-name { font-size:13px; font-weight:500; margin-bottom:2px; }
+.plan-price { font-size:18px; font-weight:500; margin:6px 0 2px; }
+.plan-price-sub { font-size:10px; color:var(--color-text-secondary); margin-bottom:8px; line-height:1.4; }
+.badge { font-size:10px; padding:2px 8px; border-radius:var(--border-radius-md); background:var(--color-background-info); color:var(--color-text-info); display:inline-block; margin-bottom:6px; }
+.feat-list { list-style:none; padding:0; margin:8px 0 0; font-size:11px; color:var(--color-text-secondary); }
+.feat-list li { padding:3px 0; border-bottom:0.5px solid var(--color-border-tertiary); display:flex; gap:5px; align-items:flex-start; }
+.feat-list li:last-child { border-bottom:none; }
+.ck { color:var(--color-text-success); font-size:10px; flex-shrink:0; margin-top:1px; }
+.no { color:var(--color-text-tertiary); font-size:10px; flex-shrink:0; margin-top:1px; }
+
+.row-grid { display:grid; grid-template-columns:160px repeat(5,1fr); gap:0; border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); overflow:hidden; font-size:11px; }
+.row-grid .hdr { background:var(--color-background-secondary); font-weight:500; font-size:11px; padding:8px 6px; text-align:center; border-bottom:0.5px solid var(--color-border-tertiary); }
+.row-grid .hdr:first-child { text-align:left; padding-left:10px; }
+.row-grid .cell { padding:7px 6px; text-align:center; border-bottom:0.5px solid var(--color-border-tertiary); color:var(--color-text-secondary); vertical-align:middle; }
+.row-grid .cell:first-child { text-align:left; padding-left:10px; color:var(--color-text-primary); font-weight:400; }
+.row-grid .row:last-child .cell { border-bottom:none; }
+.row { display:contents; }
+.row:hover .cell { background:var(--color-background-secondary); }
+
+.int-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+.int-card { background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:14px; }
+.int-card h3 { font-size:13px; font-weight:500; margin:0 0 4px; }
+.int-meta { font-size:11px; color:var(--color-text-secondary); margin-bottom:10px; }
+.int-row { display:flex; justify-content:space-between; font-size:11px; padding:4px 0; border-bottom:0.5px solid var(--color-border-tertiary); }
+.int-row:last-child { border-bottom:none; }
+.int-label { color:var(--color-text-secondary); }
+.int-val { color:var(--color-text-primary); font-weight:400; }
+.tag { display:inline-block; font-size:9px; padding:1px 6px; border-radius:4px; margin-left:4px; }
+.tag.team { background:var(--color-background-info); color:var(--color-text-info); }
+.tag.all { background:var(--color-background-success); color:var(--color-text-success); }
+.tag.ent { background:var(--color-background-warning); color:var(--color-text-warning); }
+</style>
+
+<div style="padding:1rem 0 0;">
+<div class="tab-bar">
+  <button class="tab active" onclick="showTab('plans')">プラン比較</button>
+  <button class="tab" onclick="showTab('matrix')">機能マトリクス</button>
+  <button class="tab" onclick="showTab('integrations')">オフィス連携</button>
+</div>
+
+<div id="tab-plans" class="panel active">
+  <div class="plan-grid">
+    <div class="plan-card">
+      <div class="plan-name">Free</div>
+      <div class="plan-price">$0</div>
+      <div class="plan-price-sub">無料・制限あり</div>
+      <ul class="feat-list">
+        <li><span class="ck">✓</span>基本チャット</li>
+        <li><span class="ck">✓</span>50+コネクター</li>
+        <li><span class="no">—</span>高度な機能</li>
+        <li><span class="no">—</span>Claude Code</li>
+        <li><span class="no">—</span>チーム管理</li>
+        <li><span class="no">—</span>カスタムMCP</li>
+      </ul>
+    </div>
+    <div class="plan-card">
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">$20</div>
+      <div class="plan-price-sub">/月（個人）</div>
+      <ul class="feat-list">
+        <li><span class="ck">✓</span>Freeの5倍使用量</li>
+        <li><span class="ck">✓</span>全モデル利用可</li>
+        <li><span class="ck">✓</span>Claude Code</li>
+        <li><span class="ck">✓</span>カスタムMCP</li>
+        <li><span class="ck">✓</span>インタラクティブApp</li>
+        <li><span class="no">—</span>チーム管理</li>
+      </ul>
+    </div>
+    <div class="plan-card">
+      <div class="plan-name">Max</div>
+      <div class="plan-price">$100〜</div>
+      <div class="plan-price-sub">$200/月（個人）月払いのみ</div>
+      <ul class="feat-list">
+        <li><span class="ck">✓</span>Proの5〜20倍</li>
+        <li><span class="ck">✓</span>最優先アクセス</li>
+        <li><span class="ck">✓</span>Claude Code大量利用</li>
+        <li><span class="ck">✓</span>全Pro機能含む</li>
+        <li><span class="no">—</span>チーム管理</li>
+        <li><span class="no">—</span>年払い不可</li>
+      </ul>
+    </div>
+    <div class="plan-card featured">
+      <div class="badge">6名向け最適</div>
+      <div class="plan-name">Team</div>
+      <div class="plan-price">$20〜</div>
+      <div class="plan-price-sub">/人/月（年払）最低5名〜<br>月払は$25〜/人</div>
+      <ul class="feat-list">
+        <li><span class="ck">✓</span>一元管理・請求</li>
+        <li><span class="ck">✓</span>共有プロジェクト</li>
+        <li><span class="ck">✓</span>管理者コントロール</li>
+        <li><span class="ck">✓</span>M365連携（Team以上）</li>
+        <li><span class="ck">✓</span>Claude Code利用可</li>
+        <li><span class="no">—</span>SSO・監査ログ</li>
+      </ul>
+    </div>
+    <div class="plan-card">
+      <div class="plan-name">Enterprise</div>
+      <div class="plan-price">要相談</div>
+      <div class="plan-price-sub">最低20名〜 年契約必須 APIレート課金</div>
+      <ul class="feat-list">
+        <li><span class="ck">✓</span>Team全機能含む</li>
+        <li><span class="ck">✓</span>SSO・監査ログ</li>
+        <li><span class="ck">✓</span>HIPAA対応BAA</li>
+        <li><span class="ck">✓</span>専任CSM</li>
+        <li><span class="ck">✓</span>請求書払い対応</li>
+        <li><span class="ck">✓</span>Compliance API</li>
+      </ul>
+    </div>
+  </div>
+  <p style="font-size:11px;color:var(--color-text-tertiary);margin-top:10px;">※ 税別。為替レートにより円換算は変動します。インボイス（適格請求書番号）は現時点では請求書に記載されません。</p>
+</div>
+
+<div id="tab-matrix" class="panel">
+  <div class="row-grid">
+    <div class="hdr">機能</div>
+    <div class="hdr">Free</div>
+    <div class="hdr">Pro</div>
+    <div class="hdr">Max</div>
+    <div class="hdr" style="background:var(--color-background-info);color:var(--color-text-info);">Team</div>
+    <div class="hdr">Enterprise</div>
+
+    <div class="row"><div class="cell">使用量</div><div class="cell">制限あり</div><div class="cell">Pro相当</div><div class="cell">5〜20x</div><div class="cell">Pro×1.25〜6.25</div><div class="cell">APIレート</div></div>
+    <div class="row"><div class="cell">最新モデル</div><div class="cell">一部</div><div class="cell">✓ 全モデル</div><div class="cell">✓</div><div class="cell">✓</div><div class="cell">✓</div></div>
+    <div class="row"><div class="cell">Claude Code</div><div class="cell">—</div><div class="cell">✓</div><div class="cell">✓</div><div class="cell">✓（プレミアム席）</div><div class="cell">✓</div></div>
+    <div class="row"><div class="cell">コネクター（50+）</div><div class="cell">✓ 閲覧のみ</div><div class="cell">✓</div><div class="cell">✓</div><div class="cell">✓</div><div class="cell">✓</div></div>
+    <div class="row"><div class="cell">カスタムMCP</div><div class="cell">—</div><div class="cell">✓</div><div class="cell">✓</div><div class="cell">✓</div><div class="cell">✓</div></div>
+    <div class="row"><div class="cell">M365連携</div><div class="cell">—</div><div class="cell">—</div><div class="cell">—</div><div class="cell">✓</div><div class="cell">✓</div></div>
+    <div class="row"><div class="cell">共有プロジェクト</div><div class="cell">—</div><div class="cell">—</div><div class="cell">—</div><div class="cell">✓</div><div class="cell">✓</div></div>
+    <div class="row"><div class="cell">管理者コンソール</div><div class="cell">—</div><div class="cell">—</div><div class="cell">—</div><div class="cell">✓</div><div class="cell">✓</div></div>
+    <div class="row"><div class="cell">SSO</div><div class="cell">—</div><div class="cell">—</div><div class="cell">—</div><div class="cell">—</div><div class="cell">✓</div></div>
+    <div class="row"><div class="cell">監査ログ</div><div class="cell">—</div><div class="cell">—</div><div class="cell">—</div><div class="cell">—</div><div class="cell">✓</div></div>
+    <div class="row"><div class="cell">請求書払い</div><div class="cell">—</div><div class="cell">—</div><div class="cell">—</div><div class="cell">—</div><div class="cell">✓（営業経由）</div></div>
+    <div class="row"><div class="cell">HIPAA対応</div><div class="cell">—</div><div class="cell">—</div><div class="cell">—</div><div class="cell">—</div><div class="cell">✓</div></div>
+  </div>
+</div>
+
+<div id="tab-integrations" class="panel">
+  <p style="font-size:12px;color:var(--color-text-secondary);margin:0 0 12px;">2026年3月時点。<span class="tag team">Team以上</span><span class="tag all">全プラン</span><span class="tag ent">Enterprise推奨</span></p>
+  <div class="int-grid">
+
+    <div class="int-card">
+      <h3>Microsoft 365 <span class="tag team">Team以上</span></h3>
+      <div class="int-meta">Outlook / SharePoint / OneDrive / Teams</div>
+      <div class="int-row"><span class="int-label">対応プラン</span><span class="int-val">Team・Enterprise</span></div>
+      <div class="int-row"><span class="int-label">設定</span><span class="int-val">Entra ID管理者が初期設定必須</span></div>
+      <div class="int-row"><span class="int-label">できること</span><span class="int-val">メール検索・SharePointドキュメント検索・Teams履歴参照</span></div>
+      <div class="int-row"><span class="int-label">強み</span><span class="int-val">組織全体のナレッジをClaude経由で横断検索</span></div>
+      <div class="int-row"><span class="int-label">注意点</span><span class="int-val">ネイティブCopilotより設定が複雑</span></div>
+    </div>
+
+    <div class="int-card">
+      <h3>Google Workspace <span class="tag all">全プラン</span></h3>
+      <div class="int-meta">Gmail / Drive / Docs / Calendar</div>
+      <div class="int-row"><span class="int-label">対応プラン</span><span class="int-val">Pro以上（Claude Cowork）</span></div>
+      <div class="int-row"><span class="int-label">設定</span><span class="int-val">OAuth認証のみ・5分以内</span></div>
+      <div class="int-row"><span class="int-label">できること</span><span class="int-val">Driveファイル読み書き・Gmail下書き・Calendarスケジュール</span></div>
+      <div class="int-row"><span class="int-label">強み</span><span class="int-val">Google生態系では最もシームレスな連携</span></div>
+      <div class="int-row"><span class="int-label">注意点</span><span class="int-val">Geminiと競合。GeminiはWorkspace側でネイティブ統合</span></div>
+    </div>
+
+    <div class="int-card">
+      <h3>Slack <span class="tag all">全プラン</span></h3>
+      <div class="int-meta">メッセージ・チャンネル検索・投稿</div>
+      <div class="int-row"><span class="int-label">対応プラン</span><span class="int-val">Pro以上（Interactive App対応）</span></div>
+      <div class="int-row"><span class="int-label">設定</span><span class="int-val">コネクターから認証</span></div>
+      <div class="int-row"><span class="int-label">できること</span><span class="int-val">チャンネル検索・メッセージ下書き・投稿</span></div>
+      <div class="int-row"><span class="int-label">強み</span><span class="int-val">会話履歴を文脈としてClaudeに提供</span></div>
+      <div class="int-row"><span class="int-label">注意点</span><span class="int-val">Claude Coworkとは別系統。投稿前に要確認</span></div>
+    </div>
+
+    <div class="int-card">
+      <h3>Notion <span class="tag all">全プラン</span></h3>
+      <div class="int-meta">ドキュメント・データベース・ページ</div>
+      <div class="int-row"><span class="int-label">対応プラン</span><span class="int-val">Pro以上</span></div>
+      <div class="int-row"><span class="int-label">設定</span><span class="int-val">OAuth認証</span></div>
+      <div class="int-row"><span class="int-label">できること</span><span class="int-val">ページ読み書き・DBへのレコード追加・要約</span></div>
+      <div class="int-row"><span class="int-label">強み</span><span class="int-val">社内Wiki・議事録の自動生成と更新</span></div>
+      <div class="int-row"><span class="int-label">注意点</span><span class="int-val">複雑なNotionフォーミュラは手動修正が必要なケースあり</span></div>
+    </div>
+
+    <div class="int-card">
+      <h3>Asana / Jira / Linear <span class="tag all">全プラン</span></h3>
+      <div class="int-meta">タスク・プロジェクト管理</div>
+      <div class="int-row"><span class="int-label">対応プラン</span><span class="int-val">Pro以上（Interactive App）</span></div>
+      <div class="int-row"><span class="int-label">設定</span><span class="int-val">コネクター認証</span></div>
+      <div class="int-row"><span class="int-label">できること</span><span class="int-val">タスク作成・ステータス更新・スプリント管理</span></div>
+      <div class="int-row"><span class="int-label">強み</span><span class="int-val">自然言語でタスク管理。チケット起票が劇的に速い</span></div>
+      <div class="int-row"><span class="int-label">注意点</span><span class="int-val">依存関係・カスタムフィールドなど高度機能は限定的</span></div>
+    </div>
+
+    <div class="int-card">
+      <h3>Figma / Canva <span class="tag all">全プラン</span></h3>
+      <div class="int-meta">デザイン・ビジュアルコンテンツ</div>
+      <div class="int-row"><span class="int-label">対応プラン</span><span class="int-val">Pro以上（Interactive App）</span></div>
+      <div class="int-row"><span class="int-label">設定</span><span class="int-val">コネクター認証</span></div>
+      <div class="int-row"><span class="int-label">できること</span><span class="int-val">Figmaフロー生成・Canvaデザイン作成・アセット管理</span></div>
+      <div class="int-row"><span class="int-label">強み</span><span class="int-val">ドキュメント→デザイン化が自然言語で可能</span></div>
+      <div class="int-row"><span class="int-label">注意点</span><span class="int-val">精緻なデザイン調整は依然として手動が必要</span></div>
+    </div>
+
+  </div>
+  <div style="margin-top:12px;padding:10px 12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);font-size:11px;color:var(--color-text-secondary);">
+    その他：GitHub・Box・Snowflake・HubSpot・DocuSign・Stripe・Amplitudeなど50+のコネクターが利用可能。Salesforce連携は2026年内に正式対応予定。
+  </div>
+</div>
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['plans','matrix','integrations'][i]===id));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+}
+</script>
